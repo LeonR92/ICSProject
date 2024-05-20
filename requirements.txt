@@ -1,6 +1,5 @@
-import os
-import dotenv
-import imaplib
-import imaplib2
+os
+dotenv
+imaplib
 pytest
 pytest-mock
