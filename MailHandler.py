@@ -52,7 +52,7 @@ class MailHandler:
 
         return imap_conn
 
-    def fetch_calendar_responses(self, imap_conn: imaplib.IMAP4_SSL, num_emails: int = 10) -> List[str]:
+    def fetch_calendar_responses(self, imap_conn: imaplib.IMAP4_SSL) -> List[str]:
         """Fetch the latest calendar responses from the inbox.
 
         Args:
@@ -71,10 +71,10 @@ class MailHandler:
             raise Exception("Failed to search inbox.")
 
         email_ids = data[0].split()
-        latest_email_ids = email_ids[-num_emails:]
+    
 
         calendar_responses = []
-        for email_id in latest_email_ids:
+        for email_id in email_ids:
             result, msg_data = imap_conn.fetch(email_id, '(RFC822)')
             if result != 'OK':
                 raise Exception("Failed to fetch email.")
