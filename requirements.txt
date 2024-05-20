@@ -2,3 +2,5 @@ import os
 import dotenv
 import imaplib
 import imaplib2
+pytest
+pytest-mock
