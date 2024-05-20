@@ -34,7 +34,9 @@ def main():
         description = "Discussing project updates."
         location = "Office"
 
-        ics_filename = mail_handler.create_ics_file(event_name, start_time, end_time, description, location, to_email)
+        ics_filename = mail_handler.create_ics_file(
+            event_name, start_time, end_time, description, location, to_email
+        )
 
         mail_handler.send_email(smtp_conn, to_email, subject, body, ics_filename)
 
@@ -44,5 +46,6 @@ def main():
     except Exception as e:
         logging.error(f"Error: {e}")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
