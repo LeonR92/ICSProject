@@ -101,11 +101,12 @@ def connect_to_outlook_smtp(user_email: str, user_password: str) -> smtplib.SMTP
     
     return smtp_conn
 
-def create_ics_file(event_name: str, start_time: datetime, end_time: datetime, description: str, location: str) -> str:
+def create_ics_file(event_name: str, start_time: datetime, end_time: datetime, description: str, location: str, organizer_email: str, attendee_email: str) -> str:
     """Create an ICS file for a calendar event."""
     ics_content = f"""BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Your Organization//Your Product//EN
+METHOD:REQUEST
 BEGIN:VEVENT
 UID:{datetime.now().strftime('%Y%m%dT%H%M%S')}@yourdomain.com
 DTSTAMP:{datetime.now().strftime('%Y%m%dT%H%M%SZ')}
@@ -114,6 +115,8 @@ DTEND:{end_time.strftime('%Y%m%dT%H%M%S')}
 SUMMARY:{event_name}
 DESCRIPTION:{description}
 LOCATION:{location}
+ORGANIZER;CN=Organizer:MAILTO:{organizer_email}
+ATTENDEE;RSVP=TRUE;CN=Attendee;PARTSTAT=NEEDS-ACTION:MAILTO:{attendee_email}
 END:VEVENT
 END:VCALENDAR"""
     
@@ -122,6 +125,7 @@ END:VCALENDAR"""
         ics_file.write(ics_content)
     
     return ics_filename
+
 
 
 def send_email(smtp_conn: smtplib.SMTP, user_email: str, to_email: str, subject: str, body: str, attachment_path: str = None):
@@ -192,7 +196,7 @@ def main():
         description = "Discussing project updates."
         location = "Office"
 
-        ics_filename = create_ics_file(event_name, start_time, end_time, description, location)
+        ics_filename = create_ics_file(event_name, start_time, end_time, description, location, user_email, to_email)
 
         send_email(smtp_conn, user_email, to_email, subject, body, ics_filename)
         
