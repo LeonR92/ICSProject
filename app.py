@@ -34,6 +34,8 @@ def main():
         description = "Discussing project updates."
         location = "Office"
 
+        alarm_time = datetime(2024, 5, 20, 11, 38, 0)
+
         ics_filename = mail_handler.create_ics_file(
             event_name, start_time, end_time, description, location, to_email
         )
